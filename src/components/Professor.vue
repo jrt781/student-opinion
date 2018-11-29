@@ -4,22 +4,48 @@
     <div class="aspect">
       <h1>Homework</h1>
 
-      <div class="gallery"
-      v-bind:class="{ expanded: isExpanded }">
-        <v-flex class="card-container" v-for="review in reviews" :key="review.id" sm3 >
-          <v-card class="card">
-            <v-card-title primary-title>
-              <h3 class="headline mb-0">{{review.course}}, {{review.semester}}</h3>
-            </v-card-title>
-            <v-card-text>
-              {{review.text}}
-            </v-card-text>
-            <v-card-actions>
-              <v-btn flat color="orange">More</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
-      </div> <!-- end gallery -->
+      <v-container grid-list-xl>
+        <v-layout row wrap>
+          <v-flex v-for="review in firstThree(reviews)" :key="review.id"  xs4 >
+            <v-card class="card">
+              <v-card-title primary-title>
+                <h3 class="headline mb-0">{{review.course}}, {{review.semester}}</h3>
+              </v-card-title>
+              <v-card-text>
+                {{review.text}}
+              </v-card-text>
+              <v-card-actions>
+                <v-btn flat color="orange">More</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+
+      <transition
+          name="expand"
+          @enter="enter"
+          @after-enter="afterEnter"
+          @leave="leave">
+          <v-container grid-list-xl v-if="isExpanded">
+            <v-layout row wrap>
+              <v-flex v-for="review in afterFirstThree(reviews)" :key="review.id"  xs4 >
+                <v-card class="card">
+                  <v-card-title primary-title>
+                    <h3 class="headline mb-0">{{review.course}}, {{review.semester}}</h3>
+                  </v-card-title>
+                  <v-card-text>
+                    {{review.text}}
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-btn flat color="orange">More</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-container>
+      </transition>
+
       <v-btn round flat class="expand-button" v-on:click="expandAspect"
           v-if="!isExpanded && reviews.length > 3">
         <expand-icon />
@@ -31,6 +57,10 @@
     </div> <!-- end aspect -->
     <hr />
   </div> <!-- end professorPage -->
+
+
+
+
 </template>
 
 <script>
@@ -100,40 +130,65 @@ import CollapseIcon from "vue-material-design-icons/ChevronUp.vue"
       },
       collapseAspect: function() {
         this.isExpanded = false;
-      }
+      },
+      firstThree: function(array) {
+        return array.slice(0, 3);
+      },
+      afterFirstThree: function(array) {
+        return array.slice(3);
+      },
+      enter(element) {
+        const width = getComputedStyle(element).width;
+
+        element.style.width = width;
+        element.style.position = 'absolute';
+        element.style.visibility = 'hidden';
+        element.style.height = 'auto';
+
+        const height = getComputedStyle(element).height;
+
+        element.style.width = null;
+        element.style.position = null;
+        element.style.visibility = null;
+        element.style.height = 0;
+
+        setTimeout(() => {
+          element.style.height = height;
+        });
+      },
+      afterEnter(element) {
+        element.style.height = 'auto';
+      },
+      leave(element) {
+        const height = getComputedStyle(element).height;
+
+        element.style.height = height;
+
+        setTimeout(() => {
+          element.style.height = 0;
+        });
+      },
     }
   }
 </script>
 
 <style scope>
 
-.aspect {
-  margin: 2rem;
-  width: 100%;
-  min-width: 1000px;
-}
-
-.gallery {
-  overflow: hidden;
-  height: 18rem;
-}
-
-.expanded {
-  height: auto;
-}
-
-.card-container {
-  margin: 1em;
-  float: left;
-  height: 16rem;
-}
-
-.card {}
-
 .expand-button {
   margin: 0 auto;
   clear: both;
   display: block;
+}
+
+.expand-enter-active,
+.expand-leave-active {
+  transition: height 1s ease-in-out;
+  overflow: hidden;
+}
+
+.expand-enter,
+.expand-leave-to {
+  height: 0;
 }
 
 </style>
