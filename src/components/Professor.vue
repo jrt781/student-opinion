@@ -4,7 +4,8 @@
     <div class="aspect">
       <h1>Homework</h1>
 
-      <div class="gallery">
+      <div class="gallery"
+      v-bind:class="{ expanded: isExpanded }">
         <v-flex class="card-container" v-for="review in reviews" :key="review.id" sm3 >
           <v-card class="card">
             <v-card-title primary-title>
@@ -19,19 +20,30 @@
           </v-card>
         </v-flex>
       </div> <!-- end gallery -->
-      <v-btn round flat class="expand-button" v-on:click="expandAspect" :disabled="reviews.length <= 3">
+      <v-btn round flat class="expand-button" v-on:click="expandAspect"
+          v-if="!isExpanded && reviews.length > 3">
         <expand-icon />
       </v-btn>
+      <v-btn round flat class="expand-button" v-on:click="collapseAspect"
+          v-if="isExpanded">
+        <collapse-icon />
+      </v-btn>
     </div> <!-- end aspect -->
+    <hr />
   </div> <!-- end professorPage -->
 </template>
 
 <script>
-  import ExpandIcon from "vue-material-design-icons/ChevronDown.vue"
+import ExpandIcon from "vue-material-design-icons/ChevronDown.vue"
+import CollapseIcon from "vue-material-design-icons/ChevronUp.vue"
 
   export default {
+    components: {
+      ExpandIcon, CollapseIcon
+    },
+
     data: () => ({
-      reviewIndex: 0,
+      isExpanded: false,
       reviews: [
         {
           id: '123',
@@ -76,91 +88,19 @@
           text: 'Located two hours south of Sydney in the Southern Highlands of New South Wales, ...',
         },
       ],
-      reviewsToDisplay: [
-        {
-          id: '123',
-          course: 'CS 236',
-          semester: 'Winter 2018',
-          text: 'Located two hours south of Sydney in the Southern Highlands of New South Wales, ...',
-        },
-        {
-          id: '124',
-          course: 'CS 237',
-          semester: 'Winter 2018',
-          text: 'Located two hours south of Sydney in the Southern Highlands of New South Wales, ...',
-        },
-        {
-          id: '125',
-          course: 'CS 238',
-          semester: 'Winter 2018',
-          text: 'Located two hours south of Sydney in the Southern Highlands of New South Wales, ...',
-        },
-        {
-          id: '126',
-          course: 'CS 239',
-          semester: 'Winter 2018',
-          text: 'Located two hours south of Sydney in the Southern Highlands of New South Wales, ...',
-        },
-        {
-          id: '127',
-          course: 'CS 240',
-          semester: 'Winter 2018',
-          text: 'Located two hours south of Sydney in the Southern Highlands of New South Wales, ...',
-        },
-        {
-          id: '128',
-          course: 'CS 241',
-          semester: 'Winter 2018',
-          text: 'Located two hours south of Sydney in the Southern Highlands of New South Wales, ...',
-        },
-        {
-          id: '129',
-          course: 'CS 242',
-          semester: 'Winter 2018',
-          text: 'Located two hours south of Sydney in the Southern Highlands of New South Wales, ...',
-        },
-      ],
-      // options: {
-      //   container: '#homework-reviews',
-      //   easing: 'ease-in',
-      //   offset: -60,
-      //   force: true,
-      //   cancelable: true,
-      //   onStart: function(element) {
-      //     // scrolling started
-      //   },
-      //   onDone: function(element) {
-      //     // scrolling is done
-      //   },
-      //   onCancel: function() {
-      //     // scrolling has been interrupted
-      //   },
-      //   x: false,
-      //   y: true
-      // },
     }),
 
     computed: {
-      // reviewsToDisplay: function() {
-      //   var toDisplay = [];
-      //   toDisplay.push(this.reviews[this.reviewIndex]);
-      //   if (this.reviewIndex + 1 < this.reviews.length) {
-      //     toDisplay.push(this.reviews[this.reviewIndex + 1]);
-      //   }
-      //   if (this.reviewIndex + 2 < this.reviews.length) {
-      //     toDisplay.push(this.reviews[this.reviewIndex + 2]);
-      //   }
-      //   return toDisplay;
-      // }
-    },
 
-    components: {
-      ExpandIcon
     },
 
     methods: {
       expandAspect: function() {
+        this.isExpanded = true;
       },
+      collapseAspect: function() {
+        this.isExpanded = false;
+      }
     }
   }
 </script>
@@ -170,17 +110,25 @@
 .aspect {
   margin: 2rem;
   width: 100%;
+  min-width: 1000px;
 }
 
 .gallery {
   overflow: hidden;
+  height: 18rem;
 }
 
+.expanded {
+  height: auto;
+}
 
 .card-container {
   margin: 1em;
   float: left;
+  height: 16rem;
 }
+
+.card {}
 
 .expand-button {
   margin: 0 auto;
