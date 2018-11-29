@@ -174,6 +174,10 @@ import CollapseIcon from "vue-material-design-icons/ChevronUp.vue"
 
 <style scope>
 
+#professorPage {
+  padding: 2rem;
+}
+
 .expand-button {
   margin: 0 auto;
   clear: both;
