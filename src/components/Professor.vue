@@ -1,23 +1,31 @@
 <template>
   <div id="professorPage">
 
-    <h1 id="name">{{ name }}</h1>
+    <h1 id="name">Professor {{ name }}</h1>
+    <div class="rating overall elevation-3">{{overallScore}}</div>
+    <div style="font-size: 2em; padding-top:0.5em; margin-bottom: 1em;">Overall score for this professor</div>
+    <div class="rating overall elevation-3" id="customized-score">{{customizedScore}}</div>
+    <div style="font-size: 2em; padding-top:0.5em; margin-bottom: 1em;">Customized score for this professor</div>
 
     <br />
     <hr />
     <br />
 
     <div class="aspect">
-      <h1>Homework</h1>
+      <h1>What was the homework like?</h1>
 
       <v-container grid-list-xl class="gallery">
         <v-layout row wrap>
           <v-flex v-for="review in firstThree(reviews)" :key="review.id"  xs4 >
             <v-card class="card">
-              <v-card-title primary-title>
-                <h3 class="headline mb-0">{{review.course}}, {{review.semester}}</h3>
+              <v-card-title primary-title class="review-header">
+                <div class="rating elevation-3">{{review.rating}}</div>
+                <div class="review-details">
+                  <h3 class="headline mb-0 course-label">{{review.course}}</h3>
+                  <h3 class="semester-label">{{review.semester}}</h3>
+                </div>
               </v-card-title>
-              <v-card-text>
+              <v-card-text class="review-body">
                 {{ truncate(review.text, 165, '...')}}
               </v-card-text>
               <v-card-actions>
@@ -37,10 +45,14 @@
             <v-layout row wrap>
               <v-flex v-for="review in afterFirstThree(reviews)" :key="review.id"  xs4 >
                 <v-card class="card">
-                  <v-card-title primary-title>
-                    <h3 class="headline mb-0">{{review.course}}, {{review.semester}}</h3>
+                  <v-card-title primary-title class="review-header">
+                    <div class="rating elevation-3">{{review.rating}}</div>
+                    <div class="review-details">
+                      <h3 class="headline mb-0 course-label">{{review.course}}</h3>
+                      <h3 class="semester-label">{{review.semester}}</h3>
+                    </div>
                   </v-card-title>
-                  <v-card-text>
+                  <v-card-text class="review-body">
                     {{ truncate(review.text, 165, '...')}}
                   </v-card-text>
                   <v-card-actions>
@@ -90,6 +102,8 @@ var loremIpsum = require('lorem-ipsum');
       isExpanded: false,
       reviews: [],
       name: 'John Smith',
+      overallScore: 6.7,
+      customizedScore: 7.2,
     }),
 
     filters: {
@@ -130,6 +144,7 @@ var loremIpsum = require('lorem-ipsum');
               'The projects were rather interesting.'
             ]  // Custom word dictionary. Uses dictionary.words (in lib/dictionary.js) by default.
         });
+        review.rating = Math.round((Math.random()*10));
         this.reviews.push(review);
       }
     },
@@ -195,6 +210,54 @@ var loremIpsum = require('lorem-ipsum');
 
 #name {
   font-size: 4em;
+  margin-bottom: 0.25em;
+}
+
+.rating {
+  font-size: 2em;
+  background-color: #303BA6;
+  color: white;
+  border-radius: 50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:2em;
+  height:2em;
+  float: left;
+  margin-right: 0.75rem;
+}
+
+.overall {
+  font-size: 2em;
+  width: 2.5em;
+  height: 2.5em;
+  margin-right: 0.75em;
+}
+
+#customized-score {
+  background-color: #509BE6;
+}
+
+.review-details {
+  float: left;
+}
+
+.review-header {
+  padding-bottom: 0;
+}
+
+.review-body {
+  padding-bottom: 0;
+}
+
+.course-label {
+  display: block;
+  margin-bottom: 0;
+}
+
+.semester-label {
+  display: block;
+  clear: both;
 }
 
 .expand-button {
