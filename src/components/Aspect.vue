@@ -310,15 +310,14 @@ var loremIpsum = require('lorem-ipsum');
     width: 2.15em;
     height: 2.15em;
     margin-right: 0.75em;
-
-      background-color: #6666AA;
-      color: white;
-      border-radius: 50%;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      float: left;
-      margin-right: 0.75rem;
+    background-color: #6666AA;
+    color: white;
+    border-radius: 50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    float: left;
+    margin-right: 0.75rem;
 }
 
 </style>

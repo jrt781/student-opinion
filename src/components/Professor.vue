@@ -2,25 +2,34 @@
   <div id="professorPage">
 
     <h1 id="name">Professor {{ name }}</h1>
-    <div class="rating overall elevation-3">{{overallScore}}</div>
-    <div style="font-size: 2em; padding-top:0.5em; margin-bottom: 1em;">Overall score for this professor</div>
-    <div class="rating overall elevation-3" id="customized-score">{{customizedScore}}</div>
-    <div style="font-size: 2em; padding-top:0.5em; margin-bottom: 1em;">Customized score for this professor</div>
+    <div id="overall-score" class="professor-score">
+      <div class="rating overall elevation-3">{{overallScore}}</div>
+      <div class="score-description">Overall score</div>
+    </div>
+    <div id="customized-score" class="professor-score">
+      <div class="rating overall elevation-3" id="customized-score-rating">{{customizedScore}}</div>
+      <div class="score-description">Your customized score</div>
+      <v-btn outline fab small color="indigo" class="edit-custom-score">
+        <v-icon>edit</v-icon>
+      </v-btn>
+    </div>
 
     <br />
     <hr />
-    <br />
 
+    <br />
     <aspect type="homework" v-bind:department="department" v-on:report-average="reportAverage"/>
     <hr />
+
     <br />
     <aspect type="exams" v-bind:department="department" v-on:report-average="reportAverage"/>
     <hr />
+
     <br />
     <aspect type="reading" v-bind:department="department" v-on:report-average="reportAverage"/>
     <hr />
 
-  </div> <!-- end professorPage -->
+  </div>
 
 
 
@@ -100,8 +109,36 @@
   margin-right: 0.75em;
 }
 
-#customized-score {
+#overall-score {
+  display:flex;
+  align-items:center;
+}
+
+#customized-score-rating {
   background-color: #509BE6;
+}
+
+#customized-score {
+  overflow: auto;
+  display:flex;
+  align-items:center;
+}
+
+#customized-score * {
+  float: left;
+}
+
+.edit-custom-score {
+  float: left;
+  margin-left: 1rem;
+}
+
+.score-description {
+  font-size: 2em;
+}
+
+.professor-score {
+  padding: 0.5rem;
 }
 
 </style>
