@@ -11,13 +11,13 @@
     <hr />
     <br />
 
-    <aspect type="homework" v-bind:department="department"/>
+    <aspect type="homework" v-bind:department="department" v-on:report-average="reportAverage"/>
     <hr />
     <br />
-    <aspect type="exams" v-bind:department="department"/>
+    <aspect type="exams" v-bind:department="department" v-on:report-average="reportAverage"/>
     <hr />
     <br />
-    <aspect type="reading" v-bind:department="department"/>
+    <aspect type="reading" v-bind:department="department" v-on:report-average="reportAverage"/>
     <hr />
 
   </div> <!-- end professorPage -->
@@ -40,9 +40,9 @@
     data: function () {
       return {
         name: 'John Smith',
-        overallScore: 6.7,
         customizedScore: 7.2,
         department: '',
+        aspectAverages: [],
       };
     },
 
@@ -52,11 +52,18 @@
     },
 
     computed: {
-
+      overallScore: function() {
+        var sum =  this.aspectAverages.reduce((total, aspectAverage) => {
+          return total + aspectAverage.average;
+        }, 0);
+        return Math.round( sum / this.aspectAverages.length * 10) / 10;
+      }
     },
 
     methods: {
-
+      reportAverage: function(aspectAverage) {
+        this.aspectAverages.push(aspectAverage);
+      },
     },
   }
 </script>

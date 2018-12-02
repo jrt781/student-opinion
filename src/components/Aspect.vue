@@ -1,7 +1,8 @@
 <template>
 
   <div class="aspect">
-    <h1>{{question}}</h1>
+    <div class="aspectAverage elevation-3">{{aspectAverage}}</div>
+    <h1 class="aspectType">{{question}}</h1>
 
     <v-container grid-list-xl class="gallery">
       <v-layout row wrap>
@@ -42,7 +43,7 @@
                   </div>
                 </v-card-title>
                 <v-card-text class="review-body">
-                  {{ truncate(review.text, 165, '...')}}
+                  {{ truncate(review.text, 162, '...')}}
                 </v-card-text>
                 <v-card-actions>
                   <v-btn flat color="orange">More</v-btn>
@@ -100,6 +101,7 @@ var loremIpsum = require('lorem-ipsum');
       return {
         isExpanded: false,
         reviews: [],
+        aspectAverage: 0,
       };
     },
 
@@ -120,6 +122,7 @@ var loremIpsum = require('lorem-ipsum');
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
       }
 
+      // Create all the reviews
       for (var i = 0; i < NUM_REVIEWS; i++) {
         var review = {};
         review.id = guid();
@@ -138,6 +141,16 @@ var loremIpsum = require('lorem-ipsum');
         review.rating = Math.round((Math.random()*10));
         this.reviews.push(review);
       }
+
+      // calculate the average and report back to the parent component
+      var sum =  this.reviews.reduce((total, review) => {
+        return total + review.rating;
+      }, 0);
+      var average = sum / this.reviews.length;
+      this.aspectAverage = Math.round( average * 10) / 10;
+
+      this.$emit('report-average', {type: this.type, average: average})
+
     },
 
     computed: {
@@ -286,6 +299,26 @@ var loremIpsum = require('lorem-ipsum');
 .gallery {
   margin-bottom: 0;
   padding-bottom: 0;
+}
+
+.aspectType {
+  padding-top: 0.35em;
+}
+
+.aspectAverage {
+    font-size: 2em;
+    width: 2.15em;
+    height: 2.15em;
+    margin-right: 0.75em;
+
+      background-color: #6666AA;
+      color: white;
+      border-radius: 50%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      float: left;
+      margin-right: 0.75rem;
 }
 
 </style>
