@@ -52,6 +52,7 @@
           </v-layout>
         </v-container>
     </transition>
+    <br />
 
     <v-btn round flat class="expand-button" v-on:click="expandAspect"
         v-if="!isExpanded && reviews.length > 3">
@@ -61,6 +62,7 @@
         v-if="isExpanded">
       <collapse-icon />
     </v-btn>
+    <br />
 
   </div> <!-- end aspect -->
 
@@ -106,7 +108,7 @@ var loremIpsum = require('lorem-ipsum');
     },
 
     created: function () {
-      var NUM_REVIEWS = 8;
+      var NUM_REVIEWS = Math.round(2+(Math.random()*8));
       var seasons = ['Fall', 'Winter', 'Spring', 'Summer'];
 
       function guid() {
@@ -265,7 +267,7 @@ var loremIpsum = require('lorem-ipsum');
 }
 
 .expand-button {
-  margin: 1rem auto;
+  margin: 0 auto;
   clear: both;
   display: block;
 }
