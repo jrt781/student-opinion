@@ -1,7 +1,7 @@
 <template>
 
   <div class="aspect">
-    <h1>What was the homework like?</h1>
+    <h1>{{question}}</h1>
 
     <v-container grid-list-xl class="gallery">
       <v-layout row wrap>
@@ -83,6 +83,17 @@ var loremIpsum = require('lorem-ipsum');
       ExpandIcon, CollapseIcon
     },
 
+    props: {
+      type: {
+        type: String,
+        required: true
+      },
+      department: {
+        type: String,
+        required: true
+      },
+    },
+
     data: function () {
       return {
         isExpanded: false,
@@ -96,7 +107,6 @@ var loremIpsum = require('lorem-ipsum');
 
     created: function () {
       var NUM_REVIEWS = 8;
-      var departments = ['CS', 'HIST', 'ENG', 'PHYS', 'ECON', 'GEO'];
       var seasons = ['Fall', 'Winter', 'Spring', 'Summer'];
 
       function guid() {
@@ -111,7 +121,7 @@ var loremIpsum = require('lorem-ipsum');
       for (var i = 0; i < NUM_REVIEWS; i++) {
         var review = {};
         review.id = guid();
-        review.course = departments[Math.floor(Math.random() * departments.length)] + ' ' + Math.round(100+(Math.random()*400));
+        review.course = this.department + ' ' + Math.round(100+(Math.random()*400));
         review.semester = seasons[Math.floor(Math.random() * seasons.length)] + ' ' + Math.round(2012+(Math.random()*6));
         review.text = loremIpsum({
             count: 2                      // Number of words, sentences, or paragraphs to generate.
@@ -121,12 +131,7 @@ var loremIpsum = require('lorem-ipsum');
           , paragraphLowerBound: 2        // Minimum sentences per paragraph.
           , paragraphUpperBound: 3        // Maximum sentences per paragraph.
           , format: 'plain'               // Plain text or html
-          , words: ['The homework was long.',
-              'I found the homework helpful in preparing for the exam.',
-              'The homework could have been shorter.',
-              'I usually worked in groups and could get the assignments done.',
-              'The projects were rather interesting.'
-            ]  // Custom word dictionary. Uses dictionary.words (in lib/dictionary.js) by default.
+          , words: this.sentences
         });
         review.rating = Math.round((Math.random()*10));
         this.reviews.push(review);
@@ -134,7 +139,42 @@ var loremIpsum = require('lorem-ipsum');
     },
 
     computed: {
-
+      question: function() {
+        switch(this.type) {
+          case "homework": return "How much time and effort did the homework take?";
+          case "exams":    return "Did the professor prepare you for the exams?";
+          case "reading":  return "How much did you have to read for the class?";
+          default:         return this.type;
+        }
+      },
+      sentences: function() {
+        switch(this.type) {
+          case "homework": return ['The homework was long.',
+              'I found the homework helpful in preparing for the exam.',
+              'The homework could have been shorter.',
+              'I usually worked in groups and could get the assignments done.',
+              'The projects were rather interesting.'
+            ];
+          case "exams": return ['There were too many exams.',
+              'I found the homework helpful in preparing for the exam.',
+              'The exams took about as long as the professor said they would.',
+              'All of the exams were in the testing center.',
+              'The exam was much different than what the professor talked about in class.'
+            ];
+          case "reading": return ['There was a reading assignment every class.',
+              'The professor just lectured about what we read about before class.',
+              'It was easy to get distracted while reading.',
+              'I usually just looked up summaries of the reading online.',
+              'Some of the readings were by the professor.'
+            ];
+          default: return ['The homework was long.',
+              'I found the homework helpful in preparing for the exam.',
+              'The homework could have been shorter.',
+              'I usually worked in groups and could get the assignments done.',
+              'The projects were rather interesting.'
+            ];
+        }
+      }
     },
 
     methods: {

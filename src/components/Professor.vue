@@ -11,10 +11,13 @@
     <hr />
     <br />
 
-    <aspect />
+    <aspect type="homework" v-bind:department="department"/>
     <hr />
     <br />
-    <aspect />
+    <aspect type="exams" v-bind:department="department"/>
+    <hr />
+    <br />
+    <aspect type="reading" v-bind:department="department"/>
     <hr />
 
   </div> <!-- end professorPage -->
@@ -39,7 +42,13 @@
         name: 'John Smith',
         overallScore: 6.7,
         customizedScore: 7.2,
+        department: '',
       };
+    },
+
+    created: function() {
+      var departments = ['CS', 'HIST', 'ENG', 'PHYS', 'ECON', 'GEO'];
+      this.department = departments[Math.floor(Math.random() * departments.length)];
     },
 
     computed: {
