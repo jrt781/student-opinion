@@ -3,11 +3,11 @@
 
     <h1 id="name">Professor {{ name }}</h1>
     <div id="overall-score" class="professor-score">
-      <div class="rating overall elevation-3">{{overallScore}}</div>
+      <rating v-bind:score="overallScore" v-bind:size="3"/>
       <div class="score-description">Overall score</div>
     </div>
     <div id="customized-score" class="professor-score">
-      <div class="rating overall elevation-3" id="customized-score-rating">{{customizedScore}}</div>
+      <rating v-bind:score="customizedScore" v-bind:size="3"/>
       <div class="score-description">Your customized score</div>
       <v-btn outline fab small color="indigo" class="edit-custom-score">
         <v-icon>edit</v-icon>
@@ -38,12 +38,13 @@
 
 <script>
   import Aspect from './Aspect.vue'
+  import Rating from './Rating.vue'
 
   export default {
     name: 'Professor',
 
     components: {
-      Aspect,
+      Aspect, Rating
     },
 
     data: function () {
@@ -88,25 +89,12 @@
   margin-bottom: 0.25em;
 }
 
-.rating {
-  font-size: 2em;
-  background-color: #303BA6;
-  color: white;
-  border-radius: 50%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  width:2em;
-  height:2em;
-  float: left;
-  margin-right: 0.75rem;
-}
-
 .overall {
   font-size: 2em;
   width: 2.5em;
   height: 2.5em;
   margin-right: 0.75em;
+  background-color: #303BA6;
 }
 
 #overall-score {

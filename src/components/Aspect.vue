@@ -1,7 +1,7 @@
 <template>
 
   <div class="aspect">
-    <div class="aspectAverage elevation-3">{{aspectAverage}}</div>
+    <rating v-bind:score="aspectAverage" v-bind:size="2" class="aspectAverage"/>
     <h1 class="aspectType">{{question}}</h1>
 
     <v-container grid-list-xl class="gallery">
@@ -9,7 +9,7 @@
         <v-flex v-for="review in firstThree(reviews)" :key="review.id"  xs4 >
           <v-card class="card">
             <v-card-title primary-title class="review-header">
-              <div class="rating elevation-3">{{review.rating}}</div>
+              <rating v-bind:score="review.rating"/>
               <div class="review-details">
                 <h3 class="headline mb-0 course-label">{{review.course}}</h3>
                 <h3 class="semester-label">{{review.semester}}</h3>
@@ -36,7 +36,7 @@
             <v-flex v-for="review in afterFirstThree(reviews)" :key="review.id"  xs4 >
               <v-card class="card">
                 <v-card-title primary-title class="review-header">
-                  <div class="rating elevation-3">{{review.rating}}</div>
+                  <rating v-bind:score="review.rating"/>
                   <div class="review-details">
                     <h3 class="headline mb-0 course-label">{{review.course}}</h3>
                     <h3 class="semester-label">{{review.semester}}</h3>
@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import Rating from './Rating.vue'
+
 import ExpandIcon from "vue-material-design-icons/ChevronDown.vue"
 import CollapseIcon from "vue-material-design-icons/ChevronUp.vue"
 
@@ -83,7 +85,7 @@ var loremIpsum = require('lorem-ipsum');
     name: 'Aspect',
 
     components: {
-      ExpandIcon, CollapseIcon
+      ExpandIcon, CollapseIcon, Rating
     },
 
     props: {
@@ -243,20 +245,6 @@ var loremIpsum = require('lorem-ipsum');
 
 <style scope>
 
-.rating {
-  font-size: 2em;
-  background-color: #303BA6;
-  color: white;
-  border-radius: 50%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  width:2em;
-  height:2em;
-  float: left;
-  margin-right: 0.75rem;
-}
-
 .review-details {
   float: left;
 }
@@ -306,11 +294,10 @@ var loremIpsum = require('lorem-ipsum');
 }
 
 .aspectAverage {
-    font-size: 2em;
+    font-size: 2.5em;
     width: 2.15em;
     height: 2.15em;
     margin-right: 0.75em;
-    background-color: #6666AA;
     color: white;
     border-radius: 50%;
     display:flex;
