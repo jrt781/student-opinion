@@ -16,7 +16,7 @@
               </div>
             </v-card-title>
             <v-card-text class="review-body">
-              {{ truncate(review.text, 165, '...')}}
+              <span class="line-clamp">{{review.text}}</span>
             </v-card-text>
             <v-card-actions>
               <v-btn flat color="orange">More</v-btn>
@@ -43,7 +43,7 @@
                   </div>
                 </v-card-title>
                 <v-card-text class="review-body">
-                  {{ truncate(review.text, 162, '...')}}
+                  <span class="line-clamp">{{review.text}}</span>
                 </v-card-text>
                 <v-card-actions>
                   <v-btn flat color="orange">More</v-btn>
@@ -75,10 +75,6 @@ import Rating from './Rating.vue'
 import ExpandIcon from "vue-material-design-icons/ChevronDown.vue"
 import CollapseIcon from "vue-material-design-icons/ChevronUp.vue"
 
-function truncate(text, length, suffix) {
-    return text.substring(0, length) + suffix;
-}
-
 var loremIpsum = require('lorem-ipsum');
 
   export default {
@@ -105,10 +101,6 @@ var loremIpsum = require('lorem-ipsum');
         reviews: [],
         aspectAverage: 0,
       };
-    },
-
-    filters: {
-        truncate
     },
 
     created: function () {
@@ -195,7 +187,6 @@ var loremIpsum = require('lorem-ipsum');
     },
 
     methods: {
-      truncate,
       expandAspect: function() {
         this.isExpanded = true;
       },
@@ -255,6 +246,13 @@ var loremIpsum = require('lorem-ipsum');
 
 .review-body {
   padding-bottom: 0;
+  overflow: hidden;
+}
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 
 .course-label {
