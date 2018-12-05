@@ -43,6 +43,7 @@
           <v-list-tile>
             <v-list-tile-content>
               <v-select
+                v-model="selectedSortingMethod"
                 :items="sortingMethods"
                 label="Sort reviews by"
                 outline
@@ -62,7 +63,11 @@
     </v-toolbar>
 
     <v-content>
-      <Professor v-on:report-courses="reportCourses" :selected-courses="selectedCourses"/>
+      <Professor
+        v-on:report-courses="reportCourses"
+        :selected-courses="selectedCourses"
+        :selected-sorting-method="selectedSortingMethod"
+        />
     </v-content>
 
     <!-- TODO: change color of app! -->
@@ -83,13 +88,12 @@
     data: () => ({
       drawer: null,
       selectedCourses: [],
+      selectedSortingMethod: 'semester, most recent',
       sortingMethods: [
-        "highest rating",
-        "lowest rating",
-        "most agreed with",
-        "least agreed with",
-        "newest",
-        "oldest"
+        "rating, highest",
+        "rating, lowest",
+        "semester, most recent",
+        "semester, oldest",
       ],
       courses: [],
     }),

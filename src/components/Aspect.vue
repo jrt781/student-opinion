@@ -11,7 +11,7 @@
               <rating v-bind:score="review.rating"/>
               <div class="review-details">
                 <h3 class="headline mb-0 course-label">{{review.course}}</h3>
-                <h3 class="semester-label">{{review.semester}}</h3>
+                <h3 class="semester-label">{{review.semester}} {{review.year}}</h3>
               </div>
             </v-card-title>
             <v-card-text class="review-body">
@@ -38,7 +38,7 @@
                   <rating v-bind:score="review.rating"/>
                   <div class="review-details">
                     <h3 class="headline mb-0 course-label">{{review.course}}</h3>
-                    <h3 class="semester-label">{{review.semester}}</h3>
+                    <h3 class="semester-label">{{review.semester}} {{review.year}}</h3>
                   </div>
                 </v-card-title>
                 <v-card-text class="review-body">
@@ -98,6 +98,10 @@ export default {
     showCourses: {
       type: Array,
       required: true
+    },
+    sortingMethod: {
+      type: String,
+      require: true
     }
   },
 
@@ -127,7 +131,8 @@ export default {
       var review = {};
       review.id = guid();
       review.course = this.courses[Math.floor(Math.random() * this.courses.length)];
-      review.semester = seasons[Math.floor(Math.random() * seasons.length)] + ' ' + Math.round(2012+(Math.random()*6));
+      review.semester = seasons[Math.floor(Math.random() * seasons.length)];
+      review.year = Math.round(2012+(Math.random()*6));
       review.text = loremIpsum({
           count: 2                      // Number of words, sentences, or paragraphs to generate.
         , units: 'paragraph'            // Generate words, sentences, or paragraphs.
@@ -197,8 +202,36 @@ export default {
           selectedReviews.push(this.reviews[i]);
         }
       }
+      selectedReviews = selectedReviews.sort(this.sortingFunction);
       return selectedReviews;
-    }
+    },
+    sortingFunction: function() {
+      function seasonNum(season) {
+        switch(season) {
+          case "Fall":   return 4;
+          case "Summer": return 3;
+          case "Spring": return 2;
+          case "Winter": return 1;
+          default:       return 0;
+        }
+      }
+
+      switch (this.sortingMethod) {
+        case "rating, highest":       return function(r1, r2){return r2.rating - r1.rating};
+        case "rating, lowest":        return function(r1, r2){return r1.rating - r2.rating};
+        case "semester, most recent": return function(r1, r2){
+          var diff = r2.year - r1.year;
+          if (diff != 0) return diff;
+          return seasonNum(r2.semester) - seasonNum(r1.semester);
+        };
+        case "semester, oldest":      return function(r1, r2){
+          var diff = r1.year - r2.year;
+          if (diff != 0) return diff;
+          return seasonNum(r1.semester) - seasonNum(r2.semester);
+        };
+        default:                     return function(r1, r2){return r2.rating - r1.rating};
+      }
+    },
   },
 
   methods: {

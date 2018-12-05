@@ -23,6 +23,7 @@
       v-bind:department="department"
       v-bind:courses="courses"
       v-bind:show-courses="selectedCourses"
+      v-bind:sorting-method="selectedSortingMethod"
       v-on:report-average="reportAverage"/>
     <hr />
 
@@ -31,6 +32,7 @@
       v-bind:department="department"
       v-bind:courses="courses"
       v-bind:show-courses="selectedCourses"
+      v-bind:sorting-method="selectedSortingMethod"
       v-on:report-average="reportAverage"/>
     <hr />
 
@@ -39,6 +41,7 @@
       v-bind:department="department"
       v-bind:courses="courses"
       v-bind:show-courses="selectedCourses"
+      v-bind:sorting-method="selectedSortingMethod"
       v-on:report-average="reportAverage"/>
     <hr />
 
@@ -65,6 +68,10 @@
         type: Array,
         required: true
       },
+      selectedSortingMethod: {
+        type: String,
+        require: true
+      }
     },
 
     data: function () {
