@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="app">
     <v-navigation-drawer v-model="drawer" fixed app>
       <v-list dense>
         <v-list-tile @click="yeet">
@@ -27,13 +27,13 @@
             <v-list-tile-title>Filter</v-list-tile-title>
           </v-list-tile>
 
-          <v-list-tile>
+          <v-list-tile id="first-filter">
             <v-list-tile-content>
               <v-select
                 v-model="selectedCourses"
                 :items="courses"
                 chips
-                label="Courses"
+                label="Courses to display"
                 multiple
                 outline
               ></v-select>
@@ -126,5 +126,9 @@
 .v-list--dense .v-list__tile:not(.v-list__tile--avatar) {
   min-height:40px;
   height: auto;
+}
+
+#first-filter {
+  margin-top: 15px;
 }
 </style>

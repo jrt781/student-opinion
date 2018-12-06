@@ -59,7 +59,7 @@
       <expand-icon />
     </v-btn>
     <v-btn round flat class="expand-button" v-on:click="collapseAspect"
-        v-if="isExpanded && reviewsInShowCourses.legend > 3">
+      v-if="isExpanded && reviewsInShowCourses.length > 3">
       <collapse-icon />
     </v-btn>
     <br />
@@ -217,19 +217,19 @@ export default {
       }
 
       switch (this.sortingMethod) {
-        case "rating, highest":       return function(r1, r2){return r2.rating - r1.rating};
-        case "rating, lowest":        return function(r1, r2){return r1.rating - r2.rating};
+        case "rating, highest": return function(r1, r2){return r2.rating - r1.rating};
+        case "rating, lowest": return function(r1, r2){return r1.rating - r2.rating};
         case "semester, most recent": return function(r1, r2){
           var diff = r2.year - r1.year;
           if (diff != 0) return diff;
           return seasonNum(r2.semester) - seasonNum(r1.semester);
         };
-        case "semester, oldest":      return function(r1, r2){
+        case "semester, oldest": return function(r1, r2){
           var diff = r1.year - r2.year;
           if (diff != 0) return diff;
           return seasonNum(r1.semester) - seasonNum(r2.semester);
         };
-        default:                     return function(r1, r2){return r2.rating - r1.rating};
+        default: return function(r1, r2){return r2.rating - r1.rating};
       }
     },
   },
