@@ -1,89 +1,20 @@
 <template>
   <v-app id="app">
-    <v-navigation-drawer v-model="drawer" fixed app>
-      <v-list dense>
-        <v-list-tile @click="yeet">
-          <v-list-tile-action>
-            <v-icon>home</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Home</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="yeet">
-          <v-list-tile-action>
-            <v-icon>search</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Search</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-
-
-
-
-        <v-list-group prepend-icon="sort">
-          <v-list-tile slot="activator">
-            <v-list-tile-title>Filter</v-list-tile-title>
-          </v-list-tile>
-
-          <v-list-tile id="first-filter">
-            <v-list-tile-content>
-              <v-select
-                v-model="selectedCourses"
-                :items="courses"
-                chips
-                label="Courses to display"
-                multiple
-                outline
-              ></v-select>
-            </v-list-tile-content>
-          </v-list-tile>
-
-          <v-list-tile>
-            <v-list-tile-content>
-              <v-select
-                v-model="selectedSortingMethod"
-                :items="sortingMethods"
-                label="Sort reviews by"
-                outline
-                class="filter"
-              ></v-select>
-            </v-list-tile-content>
-          </v-list-tile>
-
-        </v-list-group>
-      </v-list>
-    </v-navigation-drawer>
-
-    <!-- TODO: change color of app! -->
-    <v-toolbar color="indigo" dark fixed app>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Student Opinion</v-toolbar-title>
-    </v-toolbar>
-
-    <v-content>
-      <Professor
-        v-on:report-courses="reportCourses"
-        :selected-courses="selectedCourses"
-        :selected-sorting-method="selectedSortingMethod"
-        />
-    </v-content>
-
-    <!-- TODO: change color of app! -->
-    <v-footer color="indigo" app>
-      <span class="white--text" id="footer">&copy; 2018</span>
-    </v-footer>
+    <container> </container>
   </v-app>
 </template>
 
 <script>
-  import Professor from './components/Professor'
+  import Container from './components/Container'
+  import Vue from 'vue'
+  import VueRouter from 'vue-router'
+
+  Vue.use(VueRouter)
 
   export default {
     name: 'App',
     components: {
-      Professor
+      Container
     },
     data: () => ({
       drawer: null,
@@ -98,12 +29,7 @@
       courses: [],
     }),
     methods: {
-      yeet: function() {
-      },
-      reportCourses: function(courses) {
-        this.courses = courses;
-        this.selectedCourses = courses;
-      },
+
     }
   }
 </script>
