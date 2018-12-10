@@ -97,14 +97,17 @@
       },
       selectedSortingMethod: {
         type: String,
-        require: true
+        required: true
+      },
+      name: {
+        type: String,
+        required: true
       }
     },
 
     data: function () {
       return {
         dialog: false,
-        name: 'John Smith',
         customizedScore: 7.2,
         department: '',
         courses: [],

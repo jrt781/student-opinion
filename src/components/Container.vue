@@ -67,6 +67,7 @@
         v-on:report-courses="reportCourses"
         :selected-courses="selectedCourses"
         :selected-sorting-method="selectedSortingMethod"
+        :name="name"
         />
     </v-content>
 
@@ -96,9 +97,24 @@
         "semester, oldest",
       ],
       courses: [],
+      name: '',
     }),
+    created: function() {
+      this.name = this.parseName(this.$route.params.name);
+    },
     methods: {
+      parseName: function(nameParam) {
+        var name = nameParam.replace(/-/g, ' ');
+        name = name.replace(
+            /\w\S*/g,
+            function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            }
+        );
+        return name;
+      },
       yeet: function() {
+        window.location.href = "/#/";
       },
       reportCourses: function(courses) {
         this.courses = courses;
