@@ -102,6 +102,10 @@
       name: {
         type: String,
         required: true
+      },
+      department: {
+        type: String,
+        required: true
       }
     },
 
@@ -109,16 +113,12 @@
       return {
         dialog: false,
         customizedScore: 7.2,
-        department: '',
         courses: [],
         aspectAverages: [],
       };
     },
 
     created: function() {
-      var departments = ['CS', 'HIST', 'ENG', 'PHYS', 'ECON', 'GEO'];
-      this.department = departments[Math.floor(Math.random() * departments.length)];
-
       var numCourses = Math.round(2+(Math.random()*5));
       for (var i = 0; i < numCourses; i++) {
         this.courses.push(this.department + ' ' + Math.round(100+(Math.random()*400)));
@@ -138,10 +138,14 @@
         switch(this.department) {
           case "CS":   return "Computer Science";
           case "HIST": return "History";
-          case "ENG":  return "Engineering";
+          case "ENGL": return "Engineering";
           case "PHYS": return "Physics";
           case "ECON": return "Economics";
-          case "GEO":  return "Geology";
+          case "GEOL": return "Geology";
+          case "BIO":  return "Biology";
+          case "HUM":  return "Humanities";
+          case "STAT": return "Statistics";
+          case "IT":   return "Information Technology";
           default:     return this.department;
         }
       }
