@@ -30,10 +30,10 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn flat color="primary"@click="dialog = false">
+            <v-btn flat color="primary" @click="dialog = false">
               Cancel
             </v-btn>
-            <v-btn color="primary"@click="dialog = false">
+            <v-btn color="primary" @click="dialog = false">
               Save
             </v-btn>
           </v-card-actions>
