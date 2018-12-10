@@ -1,39 +1,27 @@
 <template>
   <v-app id="app">
-    <router-link to="/">Home</router-link>
-    <router-link to="/about">About</router-link>
     <router-view></router-view>
   </v-app>
 </template>
 
 <script>
-  import Container from './components/Container'
   import Vue from 'vue'
   import VueRouter from 'vue-router'
 
   Vue.use(VueRouter)
 
-// window.location.href = "/#/about";
-
   export default {
     name: 'App',
     components: {
-      Container
     },
     data: () => ({
-      drawer: null,
-      selectedCourses: [],
-      selectedSortingMethod: 'semester, most recent',
-      sortingMethods: [
-        "rating, highest",
-        "rating, lowest",
-        "semester, most recent",
-        "semester, oldest",
-      ],
-      courses: [],
+
     }),
     methods: {
 
+    },
+    computed: {
+      
     }
   }
 </script>
