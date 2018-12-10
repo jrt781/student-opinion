@@ -1,6 +1,8 @@
 <template>
   <v-app id="app">
-    <container> </container>
+    <router-link to="/">Home</router-link>
+    <router-link to="/about">About</router-link>
+    <router-view></router-view>
   </v-app>
 </template>
 
@@ -10,6 +12,8 @@
   import VueRouter from 'vue-router'
 
   Vue.use(VueRouter)
+
+// window.location.href = "/#/about";
 
   export default {
     name: 'App',

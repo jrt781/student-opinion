@@ -99,6 +99,7 @@
     }),
     methods: {
       yeet: function() {
+        window.location.href = "/#/about";
       },
       reportCourses: function(courses) {
         this.courses = courses;
