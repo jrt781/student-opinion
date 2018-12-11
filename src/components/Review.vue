@@ -37,10 +37,80 @@
     <v-content class="review-content">
       <v-layout align-center justify-start row>
 
-        <v-flex xs7 >
-          <input v-model="review.text" placeholder="edit me">
+        <v-flex xs6>
+          <h1 class="review-header">What do you want to say about Professor {{professor.name}}?</h1>
+          <v-form ref="form" v-model="valid" lazy-validation>
+            <v-select
+              v-model="review.type"
+              :items="types"
+              label="Question you would like to answer"
+              required
+              outline
+            >
+              <template slot="selection" slot-scope="data">
+                {{ fullType(data.item) }}
+              </template>
+              <template slot="item" slot-scope="data">
+                {{ fullType(data.item) }}
+              </template>
+            </v-select>
+            <v-layout align-center justify-start row>
+              <v-select
+                v-model="review.course"
+                :items="professor.courses"
+                label="Course"
+                required
+                outline
+                style="margin-right:1em;"
+                xs4
+              ></v-select>
+              <v-select
+                v-model="review.semester"
+                :items="semesters"
+                label="Semester"
+                required
+                outline
+                style="margin-right:1em;"
+                xs4
+              ></v-select>
+              <v-text-field
+                v-model="review.year"
+                label="Year"
+                type="number"
+                required
+                outline
+                :rules="[rules.required, rules.counter]"
+                maxlength="4"
+                xs4
+              ></v-text-field>
+            </v-layout>
+            <v-textarea
+              v-model="review.text"
+              label="Review"
+              required
+              outline
+            ></v-textarea>
+            <v-slider
+              v-model="review.rating"
+              :max="10"
+              :min="0"
+              :step="1"
+              label="Rating"
+            ></v-slider>
+
+            <v-btn
+              :disabled="!valid"
+              @click="submit"
+              color="primary"
+            >
+              submit
+            </v-btn>
+            <v-btn @click="clear" color="primary" outline>clear</v-btn>
+          </v-form>
         </v-flex>
+        <v-flex xs1 />
         <v-flex xs4 >
+          <h1 class="review-header">How your review will look:</h1>
           <v-card class="card">
             <v-card-title primary-title class="review-header">
               <rating v-bind:score="review.rating"/>
@@ -74,18 +144,17 @@ import Rating from './Rating.vue'
 
 export default {
   name: 'Review',
-
-  components: {
-    Rating
-  },
-
-  props: {
-
-  },
-
+  components: {Rating},
   data: function () {
     return {
       drawer: null,
+      valid: false,
+      semesters: [
+        'Fall',
+        'Winter',
+        'Spring',
+        'Summer'
+      ],
       review: {
         id: '',
         course: '',
@@ -94,7 +163,12 @@ export default {
         expanded: false,
         text: 'This is what I think about the professor.',
         rating: 5,
+        type: 'homework'
       },
+      rules: {
+        required: value => !!value || 'Required.',
+        counter: value => (value <= 2018 && value >= 1990 && value.length == 4) || "",
+      }
     };
   },
 
@@ -107,9 +181,35 @@ export default {
     code: function() {return this.$route.params.code;},
     professor: function() {return this.$store.getters.professor(this.code);},
     courses: function() {return this.professor.courses;},
+    types: function() {return this.$store.getters.types;},
   },
 
   methods: {
+    fullType: function(item) {
+      switch(item) {
+        case "homework": return "How much time and effort did the homework take?";
+        case "exams":    return "Did the professor prepare you for the exams?";
+        case "reading":  return "How much did you have to read for the class?";
+        case "projects": return "How much time and effort did the projects take?"
+        default:         return item;
+      }
+    },
+
+    submit: function() {
+      this.$store.commit('addReview', {
+        code: this.code,
+        review: this.review
+      });
+      this.returnToProf();
+    },
+    clear: function() {
+      this.review.semester = 'Fall';
+      this.review.year = 2018;
+      this.review.expanded = false;
+      this.review.text = '';
+      this.review.rating = 5;
+      this.review.type = 'homework';
+    },
     returnToProf: function() {
       window.location.href = "/#/professor/" + this.code;
     },
@@ -210,5 +310,10 @@ export default {
 
 .review-content {
   margin: 2em;
+}
+
+.review-header {
+  font-family: work-sans-thin, sans-serif;
+  margin-bottom: 0.5em;
 }
 </style>
