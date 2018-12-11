@@ -1,6 +1,22 @@
 <template>
   <div id="professorPage">
 
+    <v-layout column class="fab-container">
+      <router-link :to="{ name: 'Review', params: {name: nameCode, courses: courses } }">
+        <v-btn
+          dark
+          fab
+          top
+          right
+          absolute
+          color="orange"
+          v-on:click="writeReview"
+        >
+          <v-icon>add</v-icon>
+        </v-btn>
+      </router-link>
+    </v-layout>
+
     <h1 id="name">Professor {{ name }}</h1>
     <h2 id="department-name">{{departmentName}} Department</h2>
     <div id="overall-score" class="professor-score">
@@ -9,8 +25,7 @@
     </div>
     <div id="customized-score" class="professor-score">
       <rating v-bind:score="customizedScore" v-bind:size="3"/>
-      <div class="score-description">Your customized score</div>
-
+      <div class="score-description">Specialized score</div>
 
       <v-dialog v-model="dialog" width="500" >
         <v-btn slot="activator" outline fab small color="indigo" class="edit-custom-score">
@@ -119,6 +134,9 @@
     },
 
     created: function() {
+      // console.log(this.$store.getters.getCount)
+      // this.$store.commit('increment');
+      // console.log(this.$store.getters.getCount)
       var numCourses = Math.round(2+(Math.random()*5));
       for (var i = 0; i < numCourses; i++) {
         this.courses.push(this.department + ' ' + Math.round(100+(Math.random()*400)));
@@ -148,6 +166,9 @@
           case "IT":   return "Information Technology";
           default:     return this.department;
         }
+      },
+      nameCode: function() {
+        return this.name.replace(/\s+/g, '-').toLowerCase();
       }
     },
 
@@ -155,6 +176,9 @@
       reportAverage: function(aspectAverage) {
         this.aspectAverages.push(aspectAverage);
       },
+      writeReview: function() {
+        window.location.href = "/#/professor/" + this.nameCode + "/review";
+      }
     },
   }
 </script>
@@ -216,5 +240,12 @@
 .professor-score {
   padding: 0.5rem;
 }
+
+.fab-container {
+    position: fixed;
+    right: 4em;
+    top: 5em;
+    z-index:20;
+  }
 
 </style>

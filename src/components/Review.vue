@@ -32,12 +32,23 @@ export default {
   },
 
   props: {
-
+    courses: {
+      type: Array,
+      required: true
+    },
   },
 
   data: function () {
     return {
-      reviews: [],
+      review: {
+        expanded: false,
+        id: this.guid(),
+        course: this.courses[Math.floor(Math.random() * this.courses.length)],
+        semester: 'Fall',
+        year: 2018,
+        text: '',
+        rating: 5,
+      },
     };
   },
 
@@ -56,6 +67,14 @@ export default {
           this.reviews[i].expanded = !this.reviews[i].expanded;
         }
       }
+    },
+    guid: function() {
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+      }
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     },
   }
 }
