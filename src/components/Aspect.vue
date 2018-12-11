@@ -14,11 +14,11 @@
                 <h3 class="semester-label">{{review.semester}} {{review.year}}</h3>
               </div>
             </v-card-title>
-            <v-card-text class="review-body">
-              <span class="line-clamp">{{review.text}}</span>
+            <v-card-text class="review-body" v-bind:class="{ expanded: review.expanded }">
+              <span v-bind:class="{ lineclamp: !review.expanded }">{{review.text}}</span>
             </v-card-text>
             <v-card-actions>
-              <v-btn flat color="orange">More</v-btn>
+              <v-btn flat color="orange" v-on:click="expandReview(review.id)"><span v-if="!review.expanded">More</span><span v-if="review.expanded">Less</span></v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -41,11 +41,11 @@
                     <h3 class="semester-label">{{review.semester}} {{review.year}}</h3>
                   </div>
                 </v-card-title>
-                <v-card-text class="review-body">
-                  <span class="line-clamp">{{review.text}}</span>
+                <v-card-text class="review-body" v-bind:class="{ expanded: review.expanded }">
+                  <span v-bind:class="{ lineclamp: !review.expanded }">{{review.text}}</span>
                 </v-card-text>
                 <v-card-actions>
-                  <v-btn flat color="orange">More</v-btn>
+                  <v-btn flat color="orange" v-on:click="expandReview(review.id)"><span v-if="!review.expanded">More</span><span v-if="review.expanded">Less</span></v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
@@ -114,7 +114,7 @@ export default {
   },
 
   created: function () {
-    var numReviews = Math.round(2+(Math.random()*8));
+    var numReviews = Math.round(2+(Math.random()*4));
     var seasons = ['Fall', 'Winter', 'Spring', 'Summer'];
 
     function guid() {
@@ -129,6 +129,7 @@ export default {
     // Create all the reviews
     for (var i = 0; i < numReviews; i++) {
       var review = {};
+      review.expanded = false;
       review.id = guid();
       review.course = this.courses[Math.floor(Math.random() * this.courses.length)];
       review.semester = seasons[Math.floor(Math.random() * seasons.length)];
@@ -235,6 +236,13 @@ export default {
   },
 
   methods: {
+    expandReview: function(reviewId) {
+      for (var i = 0; i < this.reviews.length; i++) {
+        if (this.reviews[i].id == reviewId) {
+          this.reviews[i].expanded = !this.reviews[i].expanded;
+        }
+      }
+    },
     expandAspect: function() {
       this.isExpanded = true;
     },
@@ -305,7 +313,7 @@ export default {
   overflow: hidden;
 }
 
-.line-clamp {
+.lineclamp {
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
@@ -362,4 +370,8 @@ export default {
     margin-right: 0.75rem;
 }
 
+.expanded {
+  overflow: scroll;
+  height: 8em;
+}
 </style>
