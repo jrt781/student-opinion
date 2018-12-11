@@ -12,19 +12,28 @@ var router = new Router({
       name: 'Home',
       component: Home,
       meta: {
-        title: 'Student Opinion',
+        // eslint-disable-next-line
+        title: route => {return 'Student Opinion'},
       }
     },
     {
      path: '/professor/:name',
      name: 'Container',
-     component: Container
+     component: Container,
+     meta: {
+       title: route => {return 'Student Opinion - ' + route.params.name.replace(/-/g, ' ').replace(
+           /\w\S*/g,
+           function(txt) {
+               return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+           }
+       );},
+     }
    }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title
+  document.title = to.meta.title(to)
   next()
 })
 
