@@ -34,11 +34,11 @@
 
         <v-card>
           <v-card-title class="headline grey lighten-2" primary-title>
-            Customized Score
+            Specialized Score
           </v-card-title>
 
           <v-card-text>
-            Choose what will be part of calculating your customized score of this professor:
+            Choose what will be part of calculating this customized score of Professor {{ professor.name }}:
           </v-card-text>
 
           <v-divider></v-divider>
@@ -97,10 +97,6 @@
         type: String,
         required: true
       },
-      code: {
-        type: String,
-        required: true
-      },
     },
 
     data: function () {
@@ -115,6 +111,8 @@
 
     },
     computed: {
+      code: function() {return this.$route.params.code;},
+      professor: function() {return this.$store.getters.professor(this.code);},
       overallScore: function() {
         var aspectAverages = [];
         for (var t = 0; t < this.types.length; t++) {

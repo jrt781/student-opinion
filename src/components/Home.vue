@@ -66,7 +66,7 @@ export default {
       switch(department) {
         case "CS":   return "Computer Science";
         case "HIST": return "History";
-        case "ENGL": return "Engineering";
+        case "ENGL": return "English";
         case "PHYS": return "Physics";
         case "ECON": return "Economics";
         case "GEOL": return "Geology";

@@ -2,7 +2,7 @@
   <div class="review">
     <v-navigation-drawer v-model="drawer" fixed app>
       <v-list dense>
-        <v-list-tile @click="yeet">
+        <v-list-tile @click="home">
           <v-list-tile-action>
             <v-icon>home</v-icon>
           </v-list-tile-action>
@@ -10,7 +10,7 @@
             <v-list-tile-title>Home</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="yeet">
+        <v-list-tile @click="home">
           <v-list-tile-action>
             <v-icon>search</v-icon>
           </v-list-tile-action>
@@ -213,7 +213,7 @@ export default {
     returnToProf: function() {
       window.location.href = "/#/professor/" + this.code;
     },
-    yeet: function() {
+    home: function() {
       window.location.href = "/#/";
     },
     expandReview: function() {

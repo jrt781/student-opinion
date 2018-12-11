@@ -2,7 +2,7 @@
   <div id="app">
     <v-navigation-drawer v-model="drawer" fixed app>
       <v-list dense>
-        <v-list-tile @click="yeet">
+        <v-list-tile @click="home">
           <v-list-tile-action>
             <v-icon>home</v-icon>
           </v-list-tile-action>
@@ -10,7 +10,7 @@
             <v-list-tile-title>Home</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="yeet">
+        <v-list-tile @click="home">
           <v-list-tile-action>
             <v-icon>search</v-icon>
           </v-list-tile-action>
@@ -18,10 +18,6 @@
             <v-list-tile-title>Search</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-
-
-
-
         <v-list-group prepend-icon="sort">
           <v-list-tile slot="activator">
             <v-list-tile-title>Filter</v-list-tile-title>
@@ -53,6 +49,14 @@
           </v-list-tile>
 
         </v-list-group>
+        <v-list-tile @click="writeReview">
+          <v-list-tile-action>
+            <v-icon>edit</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Write a Review</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
 
@@ -78,7 +82,6 @@
 
 <script>
   import Professor from './Professor'
-  var loremIpsum = require('lorem-ipsum');
 
   export default {
     name: 'Container',
@@ -95,84 +98,21 @@
         "semester, most recent",
         "semester, oldest",
       ],
-      professor: {},
-
     }),
     created: function() {
       this.professor = this.$store.getters.professor(this.$route.params.code);
-      if (this.professor.courses.length == 0) {
-        var numCourses = Math.round(2+(Math.random()*3));
-        for (var j = 0; j < numCourses; j++) {
-          this.$store.commit('addCourse', {
-            code: this.$route.params.code,
-            course: this.professor.department + ' ' + Math.round(100+(Math.random()*400))
-          });
-        }
-        this.professor = this.$store.getters.professor(this.$route.params.code);
-      }
       this.selectedCourses = this.professor.courses;
-
-      if (this.professor.reviews.length == 0) {
-        var types = this.$store.getters.types;
-        var numReviews = Math.round((Math.random()*types.length*9));
-
-        for (var t = 0; t < types.length; t++) {
-          var type = types[t];
-          this.generateReview(type);
-        }
-        for (var i = 0; i < numReviews; i++) {
-          this.generateReview(types[Math.floor(Math.random() * types.length)]);
-        }
-        this.professor = this.$store.getters.professor(this.$route.params.code);
-      }
-
+    },
+    computed: {
+      code: function() {return this.$route.params.code;},
+      professor: function() {return this.$store.getters.professor(this.code);},
     },
     methods: {
-      // parseName: function(nameParam) {
-      //   var name = nameParam.replace(/-/g, ' ');
-      //   name = name.replace(
-      //       /\w\S*/g,
-      //       function(txt) {
-      //           return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-      //       }
-      //   );
-      //   return name;
-      // },
-      yeet: function() {
+      home: function() {
         window.location.href = "/#/";
       },
-      generateReview: function(type) {
-        var seasons = ['Fall', 'Winter', 'Spring', 'Summer'];
-        var review = {};
-        review.expanded = false;
-        review.id = this.guid();
-        review.course = this.professor.courses[Math.floor(Math.random() * this.professor.courses.length)];
-        review.semester = seasons[Math.floor(Math.random() * seasons.length)];
-        review.year = Math.round(2012+(Math.random()*6));
-        review.type = type;
-        review.text = loremIpsum({
-            count: 1                      // Number of words, sentences, or paragraphs to generate.
-          , units: 'paragraph'            // Generate words, sentences, or paragraphs.
-          , sentenceLowerBound: 5         // Minimum words per sentence.
-          , sentenceUpperBound: 10        // Maximum words per sentence.
-          , paragraphLowerBound: 2        // Minimum sentences per paragraph.
-          , paragraphUpperBound: 3        // Maximum sentences per paragraph.
-          , format: 'plain'               // Plain text or html
-          , words: this.sentences(review.type)
-        });
-        review.rating = Math.round((Math.random()*10));
-        this.$store.commit('addReview', {
-          code: this.$route.params.code,
-          review: review
-        });
-      },
-      guid: function() {
-        function s4() {
-          return Math.floor((1 + Math.random()) * 0x10000)
-            .toString(16)
-            .substring(1);
-        }
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+      writeReview: function() {
+        window.location.href = "/#/professor/" + this.code + "/review";
       },
     },
   }
