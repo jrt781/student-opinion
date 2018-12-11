@@ -138,7 +138,6 @@ export const store = new Vuex.Store({
       if (professor.reviews.length == 0) {
         var types = state.types;
         var numReviews = Math.round((Math.random()*types.length*9));
-
         for (var t = 0; t < types.length; t++) {
           var type = types[t];
           var review = getters.generateReview({type: type, professor: professor});
@@ -230,6 +229,15 @@ export const store = new Vuex.Store({
         case "STAT": return "Statistics";
         case "IT":   return "Information Technology";
         default:     return department;
+      }
+    },
+    fullType: () => (type) => {
+      switch(type) {
+        case "homework": return "How much time and effort did the homework take?";
+        case "exams":    return "Did the professor prepare you for the exams?";
+        case "reading":  return "How much did you have to read for the class?";
+        case "projects": return "How much time and effort did the projects take?"
+        default:         return type;
       }
     },
   },

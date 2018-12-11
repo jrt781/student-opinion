@@ -5,41 +5,50 @@
     </v-toolbar>
 
     <v-content>
-      <div style="display:flex;justify-content:center;align-items:center;">
-        <h1 class="main-title">Student Opinion</h1>
-      </div>
-      <br />
-      <div style="display:flex;justify-content:center;align-items:center;">
-        <h2 class="sub-title">
-          Find out exactly how good your professors are, in the words of your fellow students.
-        </h2>
-      </div>
-      <br />
-      <br />
-      <div style="display:flex;align-items:center;">
+      <v-layout align-center justify-start row>
+        <v-flex xs2 />
+        <v-flex xs8>
+          <div style="display:flex;justify-content:center;align-items:center;">
+            <h1 class="main-title">Student Opinion</h1>
+          </div>
+          <br />
+          <div style="display:flex;justify-content:center;align-items:center;">
+            <h2 class="sub-title">
+              Find out exactly how good your professors are, <br />in the words of your fellow students.
+            </h2>
+          </div>
+          <br />
+          <br />
 
-        <h3 class="home-instructions">Find a professor: </h3>
-        <v-autocomplete
-          :items="this.$store.getters.professors"
-          :filter="customFilter"
-          item-text="name"
-          label="Professor"
-          v-model="profInput"
-          return-object
-          outline
-        >
-          <template slot="selection" slot-scope="data">
-            {{ data.item.name }}&nbsp;<span class="department">({{ departmentName(data.item.department) }})</span>
-          </template>
-          <template slot="item" slot-scope="data">
-            {{ data.item.name }}&nbsp;<span class="department">({{ departmentName(data.item.department) }})</span>
-          </template>
-        </v-autocomplete>
-      </div>
-      <br>
-      <div style="display:flex;justify-content:center;align-items:center;">
-        <v-btn class="button" color="primary" v-on:click="search" :disabled="profInput == null">Search this professor</v-btn>
-      </div>
+          <div style="display:flex;align-items:center;">
+
+            <h3 class="home-instructions">Find a professor: </h3>
+            <v-autocomplete
+              :items="this.$store.getters.professors"
+              :filter="customFilter"
+              item-text="name"
+              label="Professor"
+              v-model="profInput"
+              return-object
+              outline
+            >
+              <template slot="selection" slot-scope="data">
+                {{ data.item.name }}&nbsp;<span class="department">({{ departmentName(data.item.department) }})</span>
+              </template>
+              <template slot="item" slot-scope="data">
+                {{ data.item.name }}&nbsp;<span class="department">({{ departmentName(data.item.department) }})</span>
+              </template>
+            </v-autocomplete>
+          </div>
+          <br>
+          <div style="display:flex;justify-content:center;align-items:center;">
+            <v-btn class="button" color="primary" v-on:click="search" :disabled="profInput == null">Search this professor</v-btn>
+          </div>
+
+        </v-flex>
+        <v-flex xs2 />
+      </v-layout>
+
 
     </v-content>
 
@@ -112,7 +121,7 @@ export default {
 }
 
 .home {
-  padding: 2rem 20rem;
+  padding: 2rem;
 }
 
 .button {

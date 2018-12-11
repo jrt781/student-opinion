@@ -20,7 +20,6 @@ export default {
   name: 'Rating',
   props: {
     score: {
-      type: Number,
       required: true
     },
     size: {
@@ -37,7 +36,11 @@ export default {
 
   computed: {
     completedSteps: function() {
-      return Math.floor(this.score * 10);
+      var scoreToUse = this.score;
+      if (typeof scoreToUse != 'number') {
+        scoreToUse = 0;
+      }
+      return Math.floor(scoreToUse * 10);
     },
     factor: function() {
       switch(this.size) {

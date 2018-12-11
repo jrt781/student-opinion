@@ -125,13 +125,7 @@ export default {
       });
     },
     question: function() {
-      switch(this.type) {
-        case "homework": return "How much time and effort did the homework take?";
-        case "exams":    return "Did the professor prepare you for the exams?";
-        case "reading":  return "How much did you have to read for the class?";
-        case "projects": return "How much time and effort did the projects take?"
-        default:         return this.type;
-      }
+      return this.$store.getters.fullType(this.type);
     },
     reviewsInShowCourses: function() {
       var selectedReviews = [];

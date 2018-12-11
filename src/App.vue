@@ -31,6 +31,10 @@
   src: url('../static/WorkSans/WorkSans-Thin.ttf'); }
 @font-face { font-family: work-sans-regular;
   src: url('../static/WorkSans/WorkSans-Regular.ttf'); }
+@font-face { font-family: work-sans-medium;
+  src: url('../static/WorkSans/WorkSans-Medium.ttf'); }
+@font-face { font-family: work-sans-light;
+  src: url('../static/WorkSans/WorkSans-Light.ttf'); }
 
 #footer {
   text-align: center;

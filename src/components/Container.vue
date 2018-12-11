@@ -51,7 +51,7 @@
         </v-list-group>
         <v-list-tile @click="writeReview">
           <v-list-tile-action>
-            <v-icon>edit</v-icon>
+            <v-icon>add_comment</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Write a Review</v-list-tile-title>
@@ -100,8 +100,8 @@
       ],
     }),
     created: function() {
-      this.professor = this.$store.getters.professor(this.$route.params.code);
-      this.selectedCourses = this.professor.courses;
+      var professor = this.$store.getters.professor(this.$route.params.code);
+      this.selectedCourses = professor.courses;
     },
     computed: {
       code: function() {return this.$route.params.code;},
