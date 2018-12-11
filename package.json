@@ -8,7 +8,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@mdi/font": "^3.2.89",
     "lorem-ipsum": "^1.0.6",
+    "material-icons": "^0.2.3",
     "vue": "^2.5.17",
     "vue-radial-progress": "^0.2.10",
     "vue-router": "^3.0.2",

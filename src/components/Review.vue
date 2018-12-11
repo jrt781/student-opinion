@@ -1,23 +1,71 @@
 <template>
   <div class="review">
-    <v-flex xs4 >
-      <v-card class="card">
-        <v-card-title primary-title class="review-header">
-          <rating v-bind:score="review.rating"/>
-          <div class="review-details">
-            <h3 class="headline mb-0 course-label">{{review.course}}</h3>
-            <h3 class="semester-label">{{review.semester}} {{review.year}}</h3>
-          </div>
-        </v-card-title>
-        <v-card-text class="review-body" v-bind:class="{ expanded: review.expanded }">
-          <span v-bind:class="{ lineclamp: !review.expanded }">{{review.text}}</span>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn flat color="orange" v-on:click="expandReview(review.id)"><span v-if="!review.expanded">More</span><span v-if="review.expanded">Less</span></v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
+    <v-navigation-drawer v-model="drawer" fixed app>
+      <v-list dense>
+        <v-list-tile @click="yeet">
+          <v-list-tile-action>
+            <v-icon>home</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Home</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="yeet">
+          <v-list-tile-action>
+            <v-icon>search</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Search</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="returnToProf">
+          <v-list-tile-action>
+            <v-icon>arrow_back</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Return to Professor {{professor.name}}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
 
+    <v-toolbar color="indigo" dark fixed app>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title>Student Opinion</v-toolbar-title>
+    </v-toolbar>
+
+    <v-content class="review-content">
+      <v-layout align-center justify-start row>
+
+        <v-flex xs7 >
+          <input v-model="review.text" placeholder="edit me">
+        </v-flex>
+        <v-flex xs4 >
+          <v-card class="card">
+            <v-card-title primary-title class="review-header">
+              <rating v-bind:score="review.rating"/>
+              <div class="review-details">
+                <h3 class="headline mb-0 course-label">{{review.course}}</h3>
+                <h3 class="semester-label">{{review.semester}} {{review.year}}</h3>
+              </div>
+            </v-card-title>
+            <v-card-text class="review-body" v-bind:class="{ expanded: review.expanded }">
+              <span v-bind:class="{ lineclamp: !review.expanded }">{{review.text}}</span>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn flat color="orange" v-on:click="expandReview(review.id)"><span v-if="!review.expanded">More</span><span v-if="review.expanded">Less</span></v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+        <v-flex xs1 />
+      </v-layout>
+
+    </v-content>
+
+
+    <v-footer color="indigo" app>
+      <span class="white--text" id="footer">&copy; 2018</span>
+    </v-footer>
   </div>
 </template>
 
@@ -32,41 +80,44 @@ export default {
   },
 
   props: {
-    courses: {
-      type: Array,
-      required: true
-    },
+
   },
 
   data: function () {
     return {
+      drawer: null,
       review: {
-        expanded: false,
-        id: this.guid(),
-        course: this.courses[Math.floor(Math.random() * this.courses.length)],
+        id: '',
+        course: '',
         semester: 'Fall',
         year: 2018,
-        text: '',
+        expanded: false,
+        text: 'This is what I think about the professor.',
         rating: 5,
       },
     };
   },
 
   created: function () {
-
+    this.review.id = this.guid();
+    this.review.course = this.courses[Math.floor(Math.random() * this.courses.length)];
   },
 
   computed: {
-
+    code: function() {return this.$route.params.code;},
+    professor: function() {return this.$store.getters.professor(this.code);},
+    courses: function() {return this.professor.courses;},
   },
 
   methods: {
-    expandReview: function(reviewId) {
-      for (var i = 0; i < this.reviews.length; i++) {
-        if (this.reviews[i].id == reviewId) {
-          this.reviews[i].expanded = !this.reviews[i].expanded;
-        }
-      }
+    returnToProf: function() {
+      window.location.href = "/#/professor/" + this.code;
+    },
+    yeet: function() {
+      window.location.href = "/#/";
+    },
+    expandReview: function() {
+      this.review.expanded = !this.review.expanded;
     },
     guid: function() {
       function s4() {
@@ -155,5 +206,9 @@ export default {
 .expanded {
   overflow: scroll;
   height: 8em;
+}
+
+.review-content {
+  margin: 2em;
 }
 </style>

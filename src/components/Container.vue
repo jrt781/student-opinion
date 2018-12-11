@@ -56,7 +56,6 @@
       </v-list>
     </v-navigation-drawer>
 
-    <!-- TODO: change color of app! -->
     <v-toolbar color="indigo" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Student Opinion</v-toolbar-title>
@@ -71,7 +70,6 @@
         />
     </v-content>
 
-    <!-- TODO: change color of app! -->
     <v-footer color="indigo" app>
       <span class="white--text" id="footer">&copy; 2018</span>
     </v-footer>
@@ -175,34 +173,6 @@
             .substring(1);
         }
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-      },
-      sentences: function(type) {
-        switch(type) {
-          case "homework": return ['The homework was long.',
-              'I found the homework helpful in preparing for the exam.',
-              'The homework could have been shorter.',
-              'I usually worked in groups and could get the assignments done.',
-              'The projects were rather interesting.'
-            ];
-          case "exams": return ['There were too many exams.',
-              'I found the homework helpful in preparing for the exam.',
-              'The exams took about as long as the professor said they would.',
-              'All of the exams were in the testing center.',
-              'The exam was much different than what the professor talked about in class.'
-            ];
-          case "reading": return ['There was a reading assignment every class.',
-              'The professor just lectured about what we read about before class.',
-              'It was easy to get distracted while reading.',
-              'I usually just looked up summaries of the reading online.',
-              'Some of the readings were by the professor.'
-            ];
-          default: return ['The homework was long.',
-              'I found the homework helpful in preparing for the exam.',
-              'The homework could have been shorter.',
-              'I usually worked in groups and could get the assignments done.',
-              'The projects were rather interesting.'
-            ];
-        }
       },
     },
   }

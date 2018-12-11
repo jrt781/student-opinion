@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
+var loremIpsum = require('lorem-ipsum');
 
 export const store = new Vuex.Store({
   state: {
@@ -115,8 +116,105 @@ export const store = new Vuex.Store({
   getters: {
     professors(state) {return state.professors;},
     types(state) {return state.types;},
-    professor: (state) => (code) => {
-      return state.professors.find(professor => professor.code === code)
+    professor: (state, getters) => (code) => {
+      // Find the index of the professor
+      var profIndex = 0;
+      for (var p = 0; p < state.professors.length; p++) {
+        if (state.professors[p].code == code) {
+          profIndex = p;
+        }
+      }
+
+      var professor = state.professors[profIndex];
+      if (professor.courses.length == 0) {
+        var numCourses = Math.round(2+(Math.random()*3));
+        for (var j = 0; j < numCourses; j++) {
+          var course = professor.department + ' ' + Math.round(100+(Math.random()*400));
+          state.professors[profIndex].courses.push(course);
+        }
+        professor = state.professors[profIndex];
+      }
+
+      if (professor.reviews.length == 0) {
+        var types = state.types;
+        var numReviews = Math.round((Math.random()*types.length*9));
+
+        for (var t = 0; t < types.length; t++) {
+          var type = types[t];
+          var review = getters.generateReview({type: type, professor: professor});
+          state.professors[profIndex].reviews.push(review);
+        }
+        for (var i = 0; i < numReviews; i++) {
+          var type2 = types[Math.floor(Math.random() * types.length)];
+          var review2 = getters.generateReview({type: type2, professor: professor});
+          state.professors[profIndex].reviews.push(review2);
+        }
+        professor = state.professors[profIndex];
+      }
+
+      return professor;
+    },
+    generateReview: (state, getters) => (info) => {
+      var type = info.type;
+      var professor = info.professor;
+      var seasons = ['Fall', 'Winter', 'Spring', 'Summer'];
+      var review = {};
+      review.expanded = false;
+      review.id = getters.guid();
+      review.course = professor.courses[Math.floor(Math.random() * professor.courses.length)];
+      review.semester = seasons[Math.floor(Math.random() * seasons.length)];
+      review.year = Math.round(2012+(Math.random()*6));
+      review.type = type;
+      review.text = loremIpsum({
+          count: 1                      // Number of words, sentences, or paragraphs to generate.
+        , units: 'paragraph'            // Generate words, sentences, or paragraphs.
+        , sentenceLowerBound: 5         // Minimum words per sentence.
+        , sentenceUpperBound: 10        // Maximum words per sentence.
+        , paragraphLowerBound: 2        // Minimum sentences per paragraph.
+        , paragraphUpperBound: 3        // Maximum sentences per paragraph.
+        , format: 'plain'               // Plain text or html
+        , words: getters.sentences(review.type)
+      });
+      review.rating = Math.round((Math.random()*10));
+      return review;
+    },
+    // eslint-disable-next-line
+    guid: () => (info) => {
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+      }
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    },
+    // eslint-disable-next-line
+    sentences: (state) => (type) => {
+      switch(type) {
+        case "homework": return ['The homework was long.',
+            'I found the homework helpful in preparing for the exam.',
+            'The homework could have been shorter.',
+            'I usually worked in groups and could get the assignments done.',
+            'The projects were rather interesting.'
+          ];
+        case "exams": return ['There were too many exams.',
+            'I found the homework helpful in preparing for the exam.',
+            'The exams took about as long as the professor said they would.',
+            'All of the exams were in the testing center.',
+            'The exam was much different than what the professor talked about in class.'
+          ];
+        case "reading": return ['There was a reading assignment every class.',
+            'The professor just lectured about what we read about before class.',
+            'It was easy to get distracted while reading.',
+            'I usually just looked up summaries of the reading online.',
+            'Some of the readings were by the professor.'
+          ];
+        default: return ['The homework was long.',
+            'I found the homework helpful in preparing for the exam.',
+            'The homework could have been shorter.',
+            'I usually worked in groups and could get the assignments done.',
+            'The projects were rather interesting.'
+          ];
+      }
     },
     // eslint-disable-next-line
     departmentName: (state) => (department) => {
