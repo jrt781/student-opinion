@@ -217,16 +217,19 @@ export default {
 
 .button {
   margin: auto;
+  font-family: work-sans-regular, sans-serif;
 }
 
 .main-title {
   font-size: 5em;
   text-align: center;
+  font-family: work-sans-thin, sans-serif;
 }
 
 .sub-title {
   font-size: 2.5em;
   text-align: center;
+  font-family: work-sans-thin, sans-serif;
 }
 
 .home-instructions {
@@ -234,6 +237,7 @@ export default {
   margin-right: 1rem;
   margin-bottom: 1.75rem;
   float: left;
+  font-family: work-sans-thin, sans-serif;
 }
 
 .department {

@@ -345,6 +345,7 @@ export default {
 
 .aspectType {
   padding-top: 0.35em;
+  font-family: work-sans-regular, sans-serif;
 }
 
 .aspectAverage {

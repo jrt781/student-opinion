@@ -5,12 +5,15 @@ import Home from '@/components/Home'
 
 Vue.use(Router)
 
-export default new Router({
+var router = new Router({
   routes: [
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: Home,
+      meta: {
+        title: 'Student Opinion',
+      }
     },
     {
      path: '/professor/:name',
@@ -19,3 +22,10 @@ export default new Router({
    }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+  next()
+})
+
+export default router

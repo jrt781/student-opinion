@@ -89,5 +89,6 @@ export default {
   align-items:center;
   float: left;
   margin-right: 0.75rem;
+  font-family: work-sans-regular, sans-serif;
 }
 </style>

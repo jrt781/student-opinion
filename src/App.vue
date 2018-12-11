@@ -21,12 +21,17 @@
 
     },
     computed: {
-      
+
     }
   }
 </script>
 
 <style scope>
+@font-face { font-family: work-sans-thin;
+  src: url('../static/WorkSans/WorkSans-Thin.ttf'); }
+@font-face { font-family: work-sans-regular;
+  src: url('../static/WorkSans/WorkSans-Regular.ttf'); }
+
 #footer {
   text-align: center;
   width: 100%;

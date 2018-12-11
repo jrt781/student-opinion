@@ -167,11 +167,13 @@
 
 #name {
   font-size: 4em;
+  font-family: work-sans-thin, sans-serif;
 }
 
 #department-name {
   font-size: 2em;
   margin-bottom: 0.25em;
+  font-family: work-sans-thin, sans-serif;
 }
 
 .overall {
@@ -208,6 +210,7 @@
 
 .score-description {
   font-size: 2em;
+  font-family: work-sans-regular, sans-serif;
 }
 
 .professor-score {
