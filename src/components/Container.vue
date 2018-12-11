@@ -31,7 +31,7 @@
             <v-list-tile-content>
               <v-select
                 v-model="selectedCourses"
-                :items="courses"
+                :items="professor.courses"
                 chips
                 label="Courses to display"
                 multiple
@@ -64,11 +64,10 @@
 
     <v-content>
       <Professor
-        v-on:report-courses="reportCourses"
         :selected-courses="selectedCourses"
         :selected-sorting-method="selectedSortingMethod"
-        :name="name"
-        :department="department"
+        :code="professor.code"
+        :department="professor.department"
         />
     </v-content>
 
@@ -81,6 +80,7 @@
 
 <script>
   import Professor from './Professor'
+  var loremIpsum = require('lorem-ipsum');
 
   export default {
     name: 'Container',
@@ -97,139 +97,114 @@
         "semester, most recent",
         "semester, oldest",
       ],
-      courses: [],
-      name: '',
-      department: '',
-      professors: [
-        {name: 'Denise Simmons', department: 'ECON', id: 1},
-        {name: 'Johnny Patterson', department: 'ENGL', id: 2},
-        {name: 'Ronald Turner', department: 'ENGL', id: 3},
-        {name: 'Willie Williams', department: 'BIO', id: 4},
-        {name: 'Todd Young', department: 'IT', id: 5},
-        {name: 'Wanda Diaz', department: 'IT', id: 6},
-        {name: 'Russell Gonzalez', department: 'HIST', id: 7},
-        {name: 'Judith Rivera', department: 'CS', id: 8},
-        {name: 'Norma Howard', department: 'IT', id: 9},
-        {name: 'Paul Sanchez', department: 'CS', id: 10},
-        {name: 'Stephanie Scott', department: 'IT', id: 11},
-        {name: 'Jane Hall', department: 'HUM', id: 12},
-        {name: 'Fred Coleman', department: 'PHYS', id: 13},
-        {name: 'Carolyn Evans', department: 'BIO', id: 14},
-        {name: 'Amanda Jackson', department: 'BIO', id: 15},
-        {name: 'Donna Clark', department: 'BIO', id: 16},
-        {name: 'Paula James', department: 'ENGL', id: 17},
-        {name: 'Ashley Russell', department: 'STAT', id: 18},
-        {name: 'Wayne Sanders', department: 'IT', id: 19},
-        {name: 'Debra Torres', department: 'HIST', id: 20},
-        {name: 'George Miller', department: 'CS', id: 21},
-        {name: 'Barbara Johnson', department: 'PHYS', id: 22},
-        {name: 'Donald Peterson', department: 'IT', id: 23},
-        {name: 'Kathleen Morgan', department: 'HUM', id: 24},
-        {name: 'Jerry Baker', department: 'ENGL', id: 25},
-        {name: 'Jeremy Hill', department: 'STAT', id: 26},
-        {name: 'Sean Collins', department: 'ECON', id: 27},
-        {name: 'Joan Mitchell', department: 'CS', id: 28},
-        {name: 'Lawrence Washington', department: 'IT', id: 29},
-        {name: 'Kenneth Thomas', department: 'ENGL', id: 30},
-        {name: 'Kathy Ross', department: 'CS', id: 31},
-        {name: 'Keith Powell', department: 'CS', id: 32},
-        {name: 'Helen Smith', department: 'IT', id: 33},
-        {name: 'Jacqueline Roberts', department: 'CS', id: 34},
-        {name: 'Lori Brown', department: 'CS', id: 35},
-        {name: 'Christine Lopez', department: 'ECON', id: 36},
-        {name: 'Victor Long', department: 'CS', id: 37},
-        {name: 'Lillian Richardson', department: 'IT', id: 38},
-        {name: 'Angela Foster', department: 'HIST', id: 39},
-        {name: 'Janet Alexander', department: 'BIO', id: 40},
-        {name: 'Annie Anderson', department: 'IT', id: 41},
-        {name: 'Frank Davis', department: 'HIST', id: 42},
-        {name: 'Carol Jones', department: 'GEOL', id: 43},
-        {name: 'Alan Griffin', department: 'BIO', id: 44},
-        {name: 'Lisa Nelson', department: 'IT', id: 45},
-        {name: 'Nancy Hernandez', department: 'GEOL', id: 46},
-        {name: 'Brenda Parker', department: 'ECON', id: 47},
-        {name: 'Beverly Walker', department: 'ECON', id: 48},
-        {name: 'Eric Butler', department: 'IT', id: 49},
-        {name: 'Andrea Martinez', department: 'CS', id: 50},
-        {name: 'Craig Carter', department: 'ECON', id: 51},
-        {name: 'Kimberly Stewart', department: 'ECON', id: 52},
-        {name: 'Clarence Henderson', department: 'PHYS', id: 53},
-        {name: 'Douglas Flores', department: 'GEOL', id: 54},
-        {name: 'Steve Ramirez', department: 'CS', id: 55},
-        {name: 'Timothy Wood', department: 'BIO', id: 56},
-        {name: 'Tammy Barnes', department: 'HUM', id: 57},
-        {name: 'Dennis Perez', department: 'PHYS', id: 58},
-        {name: 'Julia Reed', department: 'GEOL', id: 59},
-        {name: 'Heather Gray', department: 'PHYS', id: 60},
-        {name: 'Jennifer Bryant', department: 'CS', id: 61},
-        {name: 'Arthur Lewis', department: 'HIST', id: 62},
-        {name: 'Matthew Harris', department: 'ECON', id: 63},
-        {name: 'Mary Wilson', department: 'IT', id: 64},
-        {name: 'Diana Bell', department: 'HUM', id: 65},
-        {name: 'Stephen King', department: 'PHYS', id: 66},
-        {name: 'Kathryn Cooper', department: 'ECON', id: 67},
-        {name: 'Gregory Adams', department: 'GEOL', id: 68},
-        {name: 'Billy Perry', department: 'HIST', id: 69},
-        {name: 'Marilyn Thompson', department: 'ENGL', id: 70},
-        {name: 'Margaret Murphy', department: 'GEOL', id: 71},
-        {name: 'Gerald Moore', department: 'IT', id: 72},
-        {name: 'Susan White', department: 'STAT', id: 73},
-        {name: 'Christopher Green', department: 'GEOL', id: 74},
-        {name: 'Elizabeth Rodriguez', department: 'PHYS', id: 75},
-        {name: 'Jean Jenkins', department: 'IT', id: 76},
-        {name: 'David Rogers', department: 'STAT', id: 77},
-        {name: 'Ruby Morris', department: 'ENGL', id: 78},
-        {name: 'Michelle Bennett', department: 'HUM', id: 79},
-        {name: 'Jessica Cook', department: 'BIO', id: 80},
-        {name: 'Irene Cox', department: 'BIO', id: 81},
-        {name: 'Nicole Price', department: 'CS', id: 82},
-        {name: 'Jeffrey Watson', department: 'ECON', id: 83},
-        {name: 'Anthony Allen', department: 'GEOL', id: 84},
-        {name: 'Emily Ward', department: 'HUM', id: 85},
-        {name: 'Chris Bailey', department: 'ENGL', id: 86},
-        {name: 'Joyce Wright', department: 'HIST', id: 87},
-        {name: 'Shawn Campbell', department: 'GEOL', id: 88},
-        {name: 'Louis Brooks', department: 'BIO', id: 89},
-        {name: 'Laura Lee', department: 'HIST', id: 90},
-        {name: 'Phyllis Edwards', department: 'BIO', id: 91},
-        {name: 'Martin Hughes', department: 'HUM', id: 92},
-        {name: 'Alice Martin', department: 'STAT', id: 93},
-        {name: 'Ernest Taylor', department: 'ECON', id: 94},
-        {name: 'Harry Robinson', department: 'PHYS', id: 95},
-        {name: 'Nicholas Garcia', department: 'ENGL', id: 96},
-        {name: 'Eugene Gonzales', department: 'IT', id: 97},
-        {name: 'Frances Kelly', department: 'IT', id: 98},
-        {name: 'Evelyn Phillips', department: 'HUM', id: 99},
-      ],
+      professor: {},
 
     }),
     created: function() {
-      this.name = this.parseName(this.$route.params.name);
-      for (var i = 0; i < this.professors.length; i++) {
-        if (this.professors[i].name == this.name) {
-          this.department = this.professors[i].department;
+      this.professor = this.$store.getters.professor(this.$route.params.code);
+      if (this.professor.courses.length == 0) {
+        var numCourses = Math.round(2+(Math.random()*3));
+        for (var j = 0; j < numCourses; j++) {
+          this.$store.commit('addCourse', {
+            code: this.$route.params.code,
+            course: this.professor.department + ' ' + Math.round(100+(Math.random()*400))
+          });
         }
+        this.professor = this.$store.getters.professor(this.$route.params.code);
       }
+      this.selectedCourses = this.professor.courses;
+
+      if (this.professor.reviews.length == 0) {
+        var types = this.$store.getters.types;
+        var numReviews = Math.round((Math.random()*types.length*9));
+
+        for (var t = 0; t < types.length; t++) {
+          var type = types[t];
+          this.generateReview(type);
+        }
+        for (var i = 0; i < numReviews; i++) {
+          this.generateReview(types[Math.floor(Math.random() * types.length)]);
+        }
+        this.professor = this.$store.getters.professor(this.$route.params.code);
+      }
+
     },
     methods: {
-      parseName: function(nameParam) {
-        var name = nameParam.replace(/-/g, ' ');
-        name = name.replace(
-            /\w\S*/g,
-            function(txt) {
-                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-            }
-        );
-        return name;
-      },
+      // parseName: function(nameParam) {
+      //   var name = nameParam.replace(/-/g, ' ');
+      //   name = name.replace(
+      //       /\w\S*/g,
+      //       function(txt) {
+      //           return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      //       }
+      //   );
+      //   return name;
+      // },
       yeet: function() {
         window.location.href = "/#/";
       },
-      reportCourses: function(courses) {
-        this.courses = courses;
-        this.selectedCourses = courses;
+      generateReview: function(type) {
+        var seasons = ['Fall', 'Winter', 'Spring', 'Summer'];
+        var review = {};
+        review.expanded = false;
+        review.id = this.guid();
+        review.course = this.professor.courses[Math.floor(Math.random() * this.professor.courses.length)];
+        review.semester = seasons[Math.floor(Math.random() * seasons.length)];
+        review.year = Math.round(2012+(Math.random()*6));
+        review.type = type;
+        review.text = loremIpsum({
+            count: 1                      // Number of words, sentences, or paragraphs to generate.
+          , units: 'paragraph'            // Generate words, sentences, or paragraphs.
+          , sentenceLowerBound: 5         // Minimum words per sentence.
+          , sentenceUpperBound: 10        // Maximum words per sentence.
+          , paragraphLowerBound: 2        // Minimum sentences per paragraph.
+          , paragraphUpperBound: 3        // Maximum sentences per paragraph.
+          , format: 'plain'               // Plain text or html
+          , words: this.sentences(review.type)
+        });
+        review.rating = Math.round((Math.random()*10));
+        this.$store.commit('addReview', {
+          code: this.$route.params.code,
+          review: review
+        });
       },
-    }
+      guid: function() {
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+      },
+      sentences: function(type) {
+        switch(type) {
+          case "homework": return ['The homework was long.',
+              'I found the homework helpful in preparing for the exam.',
+              'The homework could have been shorter.',
+              'I usually worked in groups and could get the assignments done.',
+              'The projects were rather interesting.'
+            ];
+          case "exams": return ['There were too many exams.',
+              'I found the homework helpful in preparing for the exam.',
+              'The exams took about as long as the professor said they would.',
+              'All of the exams were in the testing center.',
+              'The exam was much different than what the professor talked about in class.'
+            ];
+          case "reading": return ['There was a reading assignment every class.',
+              'The professor just lectured about what we read about before class.',
+              'It was easy to get distracted while reading.',
+              'I usually just looked up summaries of the reading online.',
+              'Some of the readings were by the professor.'
+            ];
+          default: return ['The homework was long.',
+              'I found the homework helpful in preparing for the exam.',
+              'The homework could have been shorter.',
+              'I usually worked in groups and could get the assignments done.',
+              'The projects were rather interesting.'
+            ];
+        }
+      },
+    },
   }
 </script>
 

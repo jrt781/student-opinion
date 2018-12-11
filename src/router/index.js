@@ -18,11 +18,11 @@ var router = new Router({
       }
     },
     {
-      path: '/professor/:name',
+      path: '/professor/:code',
       name: 'Container',
       component: Container,
       meta: {
-       title: route => {return 'Student Opinion - ' + route.params.name.replace(/-/g, ' ').replace(
+       title: route => {return 'Student Opinion - ' + route.params.code.replace(/-/g, ' ').replace(
            /\w\S*/g,
            function(txt) {
                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -31,12 +31,12 @@ var router = new Router({
       }
     },
     {
-      path: '/professor/:name/review',
+      path: '/professor/:code/review',
       name: 'Review',
       component: Review,
       props: true,
       meta: {
-        title: route => {return 'Student Opinion - Review ' + route.params.name.replace(/-/g, ' ').replace(
+        title: route => {return 'Student Opinion - Review ' + route.params.code.replace(/-/g, ' ').replace(
             /\w\S*/g,
             function(txt) {
                 return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
