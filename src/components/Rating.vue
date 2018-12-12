@@ -26,6 +26,10 @@ export default {
       type: Number,
       default: 1
     },
+    type: {
+      type: String,
+      default: 'regular'
+    }
   },
 
   data: function () {
@@ -47,6 +51,7 @@ export default {
         case 1: return 1;
         case 2: return 1.25;
         case 3: return 1.5;
+        case 4: return 2;
         default: return 1;
       }
     },
@@ -55,10 +60,14 @@ export default {
         case 1: return 0.95;
         case 2: return 1;
         case 3: return 1.25;
+        case 4: return 1.5;
         default: return 0.95;
       }
     },
     color: function() {
+      if (this.type == 'customized') {
+        return '#FD8508';
+      }
       switch(this.size) {
         case 1: return '#99ccff';
         case 2: return '#3399ff';

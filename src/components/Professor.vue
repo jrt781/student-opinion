@@ -19,17 +19,14 @@
 
     <h1 id="name">Professor {{ name }}</h1>
     <h2 id="department-name">{{this.$store.getters.departmentName(department)}} Department</h2>
-    <div id="overall-score" class="professor-score">
-      <rating v-bind:score="overallScore" v-bind:size="3"/>
-      <div class="score-description">Overall score</div>
-    </div>
+
     <div id="customized-score" class="professor-score">
-      <rating v-bind:score="personalizedScore" v-bind:size="3"/>
-      <div class="score-description">Personalized score</div>
+      <rating v-bind:score="personalizedScore" v-bind:type="'customized'" v-bind:size="4"/>
+      <div class="score-description" style="margin-right: 0.8rem;">Personalized score</div>
 
       <v-dialog v-model="dialog" width="500" >
-        <v-btn slot="activator" outline fab small color="indigo" class="edit-custom-score">
-          <v-icon>edit</v-icon>
+        <v-btn slot="activator" color="#FD8508" dark class="edit-custom-score">
+          Change me!
         </v-btn>
 
         <v-card>
@@ -43,12 +40,14 @@
             <v-checkbox
               v-for="type in types" :key="type + '-checkbox'"
               :label="fullType(type)"
+              color="indigo"
               v-model="tempCheckboxes[type]"
             ></v-checkbox>
             <h4 class="personalized-header personalized">Courses</h4>
             <v-checkbox
               v-for="course in courses" :key="course + '-checkbox'"
               :label="course"
+              color="indigo"
               v-model="tempCheckboxes[course]"
             ></v-checkbox>
           </v-card-text>
@@ -67,6 +66,10 @@
         </v-card>
       </v-dialog>
 
+    </div>
+    <div id="overall-score" class="professor-score">
+      <rating v-bind:score="overallScore" v-bind:size="3" style="margin: 0 0.8rem;"/>
+      <div class="score-description" style="margin: 0 0.8rem;">Overall score</div>
     </div>
 
     <br />
