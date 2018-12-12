@@ -10,7 +10,7 @@
             <v-list-tile-title>Home</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="home">
+        <v-list-tile @click="search">
           <v-list-tile-action>
             <v-icon>search</v-icon>
           </v-list-tile-action>
@@ -18,12 +18,12 @@
             <v-list-tile-title>Search</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-group prepend-icon="sort">
+        <v-list-group prepend-icon="sort" expand>
           <v-list-tile slot="activator">
-            <v-list-tile-title>Filter</v-list-tile-title>
+            <v-list-tile-title>Sort</v-list-tile-title>
           </v-list-tile>
 
-          <v-list-tile id="first-filter">
+          <!-- v-list-tile>
             <v-list-tile-content>
               <v-select
                 v-model="selectedCourses"
@@ -34,9 +34,9 @@
                 outline
               ></v-select>
             </v-list-tile-content>
-          </v-list-tile>
+          </v-list-tile -->
 
-          <v-list-tile>
+          <v-list-tile id="first-filter">
             <v-list-tile-content>
               <v-select
                 v-model="selectedSortingMethod"
@@ -110,6 +110,9 @@
     methods: {
       home: function() {
         window.location.href = "/#/";
+      },
+      search: function() {
+        window.location.href = "/#/search";
       },
       writeReview: function() {
         window.location.href = "/#/professor/" + this.code + "/review";

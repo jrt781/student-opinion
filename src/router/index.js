@@ -18,6 +18,15 @@ var router = new Router({
       }
     },
     {
+      path: '/search',
+      name: 'Search',
+      component: Home,
+      meta: {
+        // eslint-disable-next-line
+        title: route => {return 'Student Opinion - Search'},
+      }
+    },
+    {
       path: '/professor/:code',
       name: 'Container',
       component: Container,

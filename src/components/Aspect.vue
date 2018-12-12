@@ -112,10 +112,22 @@ export default {
   computed: {
     average: function() {
       // calculate the average and report back to the parent component
-      var sum =  this.reviews.reduce((total, review) => {
+      var self = this;
+      var reviewsToShow = this.reviews.filter(function (review) {
+        for (var r = 0; r < self.showCourses.length; r++) {
+          if (self.showCourses[r] == review.course) {
+            return true;
+          }
+        }
+        return false;
+      });
+      var sum =  reviewsToShow.reduce((total, review) => {
         return total + review.rating;
       }, 0);
-      var average = sum / this.reviews.length;
+      var average = sum / reviewsToShow.length;
+      if (isNaN(average)) {
+        return "--";
+      }
       return Math.round( average * 10) / 10;
     },
     reviews: function() {

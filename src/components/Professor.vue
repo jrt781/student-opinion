@@ -80,7 +80,7 @@
       <aspect
         v-bind:type="type"
         v-bind:code="code"
-        v-bind:show-courses="selectedCourses"
+        v-bind:show-courses="selectedCoursesPersonalized"
         v-bind:sorting-method="selectedSortingMethod"/>
       <hr />
     </div>
@@ -191,6 +191,16 @@
       name: function() { return this.$store.getters.professor(this.code).name; },
       department: function() { return this.$store.getters.professor(this.code).department; },
       types: function() { return this.$store.getters.types; },
+      selectedCoursesPersonalized: function() {
+        var courses = [];
+        for (var s = 0; s < this.selectedCourses.length; s++) {
+          var course = this.selectedCourses[s];
+          if (this.checkboxes[course]) {
+            courses.push(course);
+          }
+        }
+        return courses;
+      }
     },
 
     methods: {

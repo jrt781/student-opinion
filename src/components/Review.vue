@@ -10,7 +10,7 @@
             <v-list-tile-title>Home</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="home">
+        <v-list-tile @click="search">
           <v-list-tile-action>
             <v-icon>search</v-icon>
           </v-list-tile-action>
@@ -211,6 +211,9 @@ export default {
     },
     home: function() {
       window.location.href = "/#/";
+    },
+    search: function() {
+      window.location.href = "/#/search";
     },
     expandReview: function() {
       this.review.expanded = !this.review.expanded;
