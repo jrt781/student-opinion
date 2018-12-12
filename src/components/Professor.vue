@@ -35,15 +35,15 @@
           </v-card-title>
 
           <v-card-text id="personalized-score-body">
-            <p class="personalized">Choose what will be part of calculating this customized score of Professor {{ professor.name }}.</p>
-            <h4 class="personalized-header personalized">Review Types</h4>
+            <p class="personalized">Choose the courses and aspects that are most important to you to be part of calculating this customized score of Professor {{ professor.name }}.</p>
+            <h4 class="personalized-header personalized">Review Types to Include</h4>
             <v-checkbox
               v-for="type in types" :key="type + '-checkbox'"
               :label="fullType(type)"
               color="indigo"
               v-model="tempCheckboxes[type]"
             ></v-checkbox>
-            <h4 class="personalized-header personalized">Courses</h4>
+            <h4 class="personalized-header personalized">Courses to Include</h4>
             <v-checkbox
               v-for="course in courses" :key="course + '-checkbox'"
               :label="course"

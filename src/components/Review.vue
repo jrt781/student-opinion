@@ -96,6 +96,8 @@
               :min="0"
               :step="1"
               label="Rating"
+              thumb-label="always"
+              style="margin-top: 1.5rem;"
             ></v-slider>
 
             <v-btn
